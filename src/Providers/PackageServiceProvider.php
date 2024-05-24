@@ -10,7 +10,10 @@ use Illuminate\Support\ServiceProvider;
 final class PackageServiceProvider extends ServiceProvider
 {
     /**
-     * Register services.
+     * Register any application services.
+     *
+     * This method is used to bind things into the service container.
+     * Here, we are merging the package's configuration file with the application's published configuration.
      *
      * @return void
      */
@@ -23,13 +26,16 @@ final class PackageServiceProvider extends ServiceProvider
     }
 
     /**
-     * Bootstrap services.
+     * Bootstrap any application services.
+     *
+     * This method is called after all other services have been registered.
+     * It is used to perform any actions required by your package, such as publishing configuration files.
      *
      * @return void
      */
     public function boot()
     {
-        // Publish configuration file
+        // The publishes method is used to publish package assets, such as configuration files, to the application's own directories.
         $this->publishes([
             __DIR__.'/../../config/laravelgpt.php' => $this->app->configPath('laravelgpt.php'),
         ], 'laravel-gpt-config');
