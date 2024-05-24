@@ -32,9 +32,7 @@ class LaravelGPTService
         $this->apiKey = env('OPENAI_API_KEY');
 
         // Initialize the HTTP client with the base URI from the configuration
-        $this->client = $client ?: new Client([
-            'base_uri' => $this->configRepository->get('laravelgpt.openai_base_uri'),
-        ]);
+        $this->client = $client ?: new Client();
     }
 
     /**
@@ -45,9 +43,11 @@ class LaravelGPTService
      */
     public function generateOpenAIResponse($prompt)
     {
+        $baseUri = $this->configRepository->get('laravelgpt.openai_base_uri');
+
         try {
             // Send a POST request to the OpenAI API
-            $response = $this->client->request('POST', 'chat/completions', [
+            $response = $this->client->request('POST', "$baseUri/chat/completions", [
                 'headers' => [
                     'Authorization' => 'Bearer ' . $this->apiKey,
                     'Content-Type' => 'application/json',
