@@ -1,13 +1,13 @@
 {
-    "name": "jonaspoelmans/laravel-gpt",
-    "description": "This package integrates with LLM APIs such as OpenAI and Mistral",
-    "type": "library",
-    "license": "MIT",
-    "autoload": {
-        "psr-4": {
-            "Jonaspoelmans\\LaravelGpt\\": "src/"
-        }
-    },
+  "name": "jonaspoelmans/laravel-gpt",
+  "description": "This package integrates with LLM APIs such as OpenAI and Mistral",
+  "type": "library",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Jonaspoelmans\\LaravelGpt\\": "src/"
+    }
+  },
   "extra": {
     "laravel": {
       "providers": [
@@ -15,32 +15,34 @@
       ]
     }
   },
-    "authors": [
-        {
-            "name": "Jonas Poelmans",
-            "email": "jonas.poelmans@gmail.com"
-        }
-    ],
-    "require": {
-        "php": "^8.1",
-        "guzzlehttp/guzzle": "^7.8",
-        "illuminate/config": "^10.48",
-        "illuminate/contracts": "^10.48",
-        "illuminate/support": "^10.48"
-
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
-    "config": {
-        "sort-packages": true,
-        "preferred-install": "dist",
-        "optimize-autoloader": true
-    },
-    "require-dev": {
-        "mockery/mockery": "^1.6",
-        "phpunit/phpunit": "^10.5",
-        "psr/log": "^3.0",
-      "phpoption/phpoption": "^1.9",
-      "vlucas/phpdotenv": "^5.6"
+  "authors": [
+    {
+      "name": "Jonas Poelmans",
+      "email": "jonas.poelmans@gmail.com"
     }
+  ],
+  "require": {
+    "php": "^8.1",
+    "guzzlehttp/guzzle": "^7.8",
+    "illuminate/config": "^10.48",
+    "illuminate/contracts": "^10.48",
+    "illuminate/support": "^10.48"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "config": {
+    "sort-packages": true,
+    "preferred-install": "dist",
+    "optimize-autoloader": true
+  },
+  "require-dev": {
+    "mockery/mockery": "^1.6",
+    "phpunit/phpunit": "^10.5",
+    "psr/log": "^3.0",
+    "phpoption/phpoption": "^1.9",
+    "vlucas/phpdotenv": "^5.6"
+  },
+  "scripts": {
+    "test": "vendor/bin/phpunit"
+  }
 }
