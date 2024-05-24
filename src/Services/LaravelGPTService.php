@@ -43,6 +43,7 @@ class LaravelGPTService
      */
     public function generateOpenAIResponse($prompt)
     {
+        // get base URI
         $baseUri = $this->configRepository->get('laravelgpt.openai_base_uri');
 
         try {
