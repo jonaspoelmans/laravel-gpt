@@ -76,6 +76,7 @@ class LaravelGPTService
         } catch (\Exception $e) {
             // Handle exception
             if($this->configRepository->get('laravelgpt.openai_logging')) {
+                // Log exception
                 Log::debug($e->getMessage());
             }
 
