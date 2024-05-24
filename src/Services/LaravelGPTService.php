@@ -23,7 +23,7 @@ class LaravelGPTService
      *
      * @param ConfigRepository $configRepository
      */
-    public function __construct(ConfigRepository $configRepository)
+    public function __construct(ConfigRepository $configRepository, Client $client = null)
     {
         // Store the configuration repository instance
         $this->configRepository = $configRepository;
@@ -32,7 +32,7 @@ class LaravelGPTService
         $this->apiKey = env('OPENAI_API_KEY');
 
         // Initialize the HTTP client with the base URI from the configuration
-        $this->client = new Client([
+        $this->client = $client ?: new Client([
             'base_uri' => $this->configRepository->get('laravelgpt.openai_base_uri'),
         ]);
     }
