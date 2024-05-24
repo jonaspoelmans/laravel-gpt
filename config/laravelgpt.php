@@ -3,7 +3,7 @@
 return [
     // The base URI for the OpenAI API.
     // This is the endpoint where all API requests will be sent.
-    'openai_base_uri' => 'https://api.openai.com/v1/',
+    'openai_base_uri' => 'https://api.openai.com/v1',
 
     // The default model to be used for generating responses.
     // You can change this to any valid model identifier provided by OpenAI,
