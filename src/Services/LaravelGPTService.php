@@ -80,6 +80,7 @@ class LaravelGPTService
                 Log::debug($e->getMessage());
             }
 
+            // return no results
             return '';
         }
     }
