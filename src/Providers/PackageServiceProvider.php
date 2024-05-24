@@ -32,6 +32,6 @@ final class PackageServiceProvider extends ServiceProvider
         // Publish configuration file
         $this->publishes([
             __DIR__.'/../../config/laravelgpt.php' => $this->app->configPath('laravelgpt.php'),
-        ], 'config');
+        ], 'laravel-gpt-config');
     }
 }
