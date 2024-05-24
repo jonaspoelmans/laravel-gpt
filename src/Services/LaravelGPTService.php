@@ -20,7 +20,7 @@ class LaravelGPTService
 
         $this->apiKey = env('OPENAI_API_KEY');
         $this->client = new Client([
-            $this->configRepository->get('laravelgpt.base_uri'),
+            $this->configRepository->get('laravelgpt.openai_base_uri'),
         ]);
     }
 
@@ -39,9 +39,9 @@ class LaravelGPTService
                             'content' => $prompt, // Assume you're getting a message from the request
                         ],
                     ],
-                    $this->configRepository->get('laravelgpt.model'),
-                    $this->configRepository->get('laravelgpt.max_tokens'),
-                    $this->configRepository->get('laravelgpt.temperature')
+                    $this->configRepository->get('laravelgpt.openai_model'),
+                    $this->configRepository->get('laravelgpt.openai_max_tokens'),
+                    $this->configRepository->get('laravelgpt.openai_temperature')
                 ],
             ]);
 
@@ -52,7 +52,7 @@ class LaravelGPTService
             return $bodyJson;
         } catch (\Exception $e) {
             // Handle exception
-            if($this->configRepository->get('laravelgpt.logging')) {
+            if($this->configRepository->get('laravelgpt.openai_logging')) {
                 Log::debug($e->getMessage());
             }
 

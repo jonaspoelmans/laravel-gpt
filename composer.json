@@ -8,6 +8,13 @@
             "Jonaspoelmans\\LaravelGpt\\": "src/"
         }
     },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Jonaspoelmans\\LaravelGpt\\Providers\\PackageServiceProvider"
+      ]
+    }
+  },
     "authors": [
         {
             "name": "Jonas Poelmans",
