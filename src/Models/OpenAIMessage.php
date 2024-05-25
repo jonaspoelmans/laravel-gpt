@@ -6,6 +6,7 @@ use InvalidArgumentException;
 
 class OpenAIMessage
 {
+    // the role
     protected $role;
     protected $content;
 
