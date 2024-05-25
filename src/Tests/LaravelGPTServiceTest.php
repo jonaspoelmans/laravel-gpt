@@ -30,7 +30,7 @@ class LaravelGPTServiceTest extends TestCase
             ->will($this->returnCallback(function ($key) {
                 switch ($key) {
                     case 'laravelgpt.openai_base_uri':
-                        return 'https://api.openai.com/v1/';
+                        return 'https://api.openai.com/v1';
                     case 'laravelgpt.openai_model':
                         return 'gpt-4-1106-preview';
                     case 'laravelgpt.openai_max_tokens':
@@ -44,17 +44,26 @@ class LaravelGPTServiceTest extends TestCase
                 }
             }));
 
+        // Mock the Log facade for error logging
+        $logMock = $this->createMock(\Psr\Log\LoggerInterface::class);
+        Log::swap($logMock);
+
         // Create a mock Guzzle client
         $mockClient = $this->createMock(Client::class);
-        $mockClient->method('request')
-            ->with('POST', 'chat/completions', $this->callback(function ($options) {
-                return isset($options['headers']['Authorization']) && $options['headers']['Authorization'] === 'Bearer test_api_key' &&
-                    isset($options['headers']['Content-Type']) && $options['headers']['Content-Type'] === 'application/json' &&
-                    isset($options['json']['model']) && $options['json']['model'] === 'gpt-4-1106-preview' &&
-                    isset($options['json']['messages'][0]['content']) && $options['json']['messages'][0]['content'] === 'Test prompt' &&
-                    isset($options['json']['max_tokens']) && $options['json']['max_tokens'] === 4000 &&
-                    isset($options['json']['temperature']) && $options['json']['temperature'] === 0.7;
-            }))
+        $mockClient->expects($this->once())
+            ->method('request')
+            ->with(
+                'POST',
+                'https://api.openai.com/v1/chat/completions',
+                $this->callback(function ($options) {
+                    return isset($options['headers']['Authorization']) && $options['headers']['Authorization'] === 'Bearer test_api_key' &&
+                        isset($options['headers']['Content-Type']) && $options['headers']['Content-Type'] === 'application/json' &&
+                        isset($options['json']['model']) && $options['json']['model'] === 'gpt-4-1106-preview' &&
+                        isset($options['json']['messages'][0]['content']) && $options['json']['messages'][0]['content'] === 'Test prompt' &&
+                        isset($options['json']['max_tokens']) && $options['json']['max_tokens'] === 4000 &&
+                        isset($options['json']['temperature']) && $options['json']['temperature'] === 0.7;
+                })
+            )
             ->willReturn(new Response(200, [], json_encode(['choices' => [['message' => ['content' => 'Response content']]]])));
 
         // Inject the mock client into the service using reflection
@@ -79,10 +88,22 @@ class LaravelGPTServiceTest extends TestCase
 
         // Create a mock config repository
         $configRepository = $this->createMock(ConfigRepository::class);
-        $configRepository->method('get')->willReturnMap([
-            ['laravelgpt.openai_base_uri', 'https://api.openai.com/v1/'],
-            ['laravelgpt.openai_logging', true],
-        ]);
+        $configRepository->expects($this->atLeastOnce())
+            ->method('get')
+            ->will($this->returnCallback(function ($key) {
+                switch ($key) {
+                    case 'laravelgpt.openai_base_uri':
+                        return 'https://api.openai.com/v1';
+                    case 'laravelgpt.openai_logging':
+                        return true;
+                    default:
+                        return null;
+                }
+            }));
+
+        // Mock the Log facade for error logging
+        $logMock = $this->createMock(\Psr\Log\LoggerInterface::class);
+        Log::swap($logMock);
 
         // Create a mock Guzzle client that throws an exception
         $mockClient = $this->createMock(Client::class);
