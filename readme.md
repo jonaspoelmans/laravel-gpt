@@ -41,7 +41,7 @@ $priorMessageAssistant = new OpenAIMessage('assistant', 'Which list?');
 $history = [$priorMessageUser, $priorMessageAssistant];
 
 // The prompt can be fed to ChatGPT alongside the chat history
-$laravelGPT->generateOpenAIResponse($prompt, $history);
+$response = $laravelGPT->generateOpenAIResponse($prompt, $history);
 
 ```
 
