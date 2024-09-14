@@ -44,7 +44,7 @@ class LaravelGPTService
      * @param array
      * @return array|string
      */
-    public function generateOpenAIResponse(string $prompt, array $history = [], string $responseFormat = null)
+    public function generateOpenAIResponse(string $prompt, array $history = [], $responseFormat = null)
     {
         // get base URI
         $baseUri = $this->configRepository->get('laravelgpt.openai_base_uri');
