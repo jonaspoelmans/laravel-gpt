@@ -44,7 +44,7 @@ class LaravelGPTService
      * @param array
      * @return array|string
      */
-    public function generateOpenAIResponse(string $prompt, array $history = [])
+    public function generateOpenAIResponse(string $prompt, array $history = [], string $responseFormat = null)
     {
         // get base URI
         $baseUri = $this->configRepository->get('laravelgpt.openai_base_uri');
@@ -71,19 +71,36 @@ class LaravelGPTService
                 'content' => $prompt, // The prompt provided by the user
             ];
 
-            // Send a POST request to the OpenAI API
-            $response = $this->client->request('POST', "$baseUri/chat/completions", [
-                'headers' => [
-                    'Authorization' => 'Bearer ' . $this->apiKey,
-                    'Content-Type' => 'application/json',
-                ],
-                'json' => [
-                    'model' => $model,
-                    'messages' => $messages,
-                    'max_tokens' => $maxTokens,
-                    'temperature' => $temperature,
-                ],
-            ]);
+            if($responseFormat) {
+                // Send a POST request to the OpenAI API
+                $response = $this->client->request('POST', "$baseUri/chat/completions", [
+                    'headers' => [
+                        'Authorization' => 'Bearer ' . $this->apiKey,
+                        'Content-Type' => 'application/json',
+                    ],
+                    'json' => [
+                        'model' => $model,
+                        'messages' => $messages,
+                        'max_tokens' => $maxTokens,
+                        'temperature' => $temperature,
+                        'response_format' => $responseFormat,
+                    ],
+                ]);
+            } else {
+                // Send a POST request to the OpenAI API
+                $response = $this->client->request('POST', "$baseUri/chat/completions", [
+                    'headers' => [
+                        'Authorization' => 'Bearer ' . $this->apiKey,
+                        'Content-Type' => 'application/json',
+                    ],
+                    'json' => [
+                        'model' => $model,
+                        'messages' => $messages,
+                        'max_tokens' => $maxTokens,
+                        'temperature' => $temperature,
+                    ],
+                ]);
+            }
 
             // Get the response body
             $body = $response->getBody()->getContents();
